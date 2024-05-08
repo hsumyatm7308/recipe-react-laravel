@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 
 class RecipeController extends Controller
 {
@@ -14,8 +16,11 @@ class RecipeController extends Controller
      */
     public function index()
     {
+        $allrecipes = Recipe::all();
+        return response()->json([
+            'data' => RecipeResource::collection($allrecipes)
+        ], 200);
 
-        return view('recipe.create');
 
     }
 
@@ -27,16 +32,30 @@ class RecipeController extends Controller
     {
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'image' => 'nullable',
+            'image' => 'required|image|mimes:jpg,jpeg,png',
             'category_id' => 'required',
             'time' => 'required|numeric',
             'time_unit' => 'required',
             'numberofpeople' => 'required|integer|min:1',
-            'ingredients' => 'required',
-            'ingredients.*' => 'required|string|max:255',
-            'method' => 'required|string',
+            'ingredients' => 'required', // array
+            'instructions' => 'required|string',
             'user_id' => 'required'
         ]);
+
+
+        // $user = Auth::user();
+        // $user_id = $user->id;
+
+        if ($validatedData['image']) {
+            $file = $request['image'];
+            $imagenewname = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/img/recipe/'), $imagenewname);
+
+            $filepath = 'assets/img/recipe/' . $imagenewname;
+            $validatedData['image'] = $filepath;
+
+
+        }
 
         $createrecipe = Recipe::create($validatedData);
 
@@ -45,6 +64,7 @@ class RecipeController extends Controller
             'message' => 'Recipe created successfully',
             'data' => new RecipeResource($createrecipe)
         ], 201);
+
     }
 
 
@@ -54,7 +74,10 @@ class RecipeController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $showrecipe = Recipe::findOrFail($id);
+        return response()->json([
+            'data' => new RecipeResource($showrecipe)
+        ], 200);
     }
 
     /**
@@ -62,14 +85,61 @@ class RecipeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'image' => 'required|image|mimes:jpg,jpeg,png',
+            'category_id' => 'required',
+            'time' => 'required|numeric',
+            'time_unit' => 'required',
+            'numberofpeople' => 'required|integer|min:1',
+            'ingredients' => 'required', // array
+            'instructions' => 'required|string',
+            'user_id' => 'required'
+        ]);
+
+        $recipe = Recipe::findOrFail($id);
+
+        // Remove Old Image
+        if ($validatedData['image']) {
+            $path = $recipe->image;
+
+            if (File::exists($path)) {
+                File::delete($path);
+            }
+        }
+
+        if ($validatedData['image']) {
+            $file = $request['image'];
+            $imagenewname = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/img/recipe/'), $imagenewname);
+
+            $filepath = 'assets/img/recipe/' . $imagenewname;
+            $validatedData['image'] = $filepath;
+
+
+        }
+
+        $recipe->update($validatedData);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Recipe updated successfully',
+            'data' => new RecipeResource($recipe)
+        ], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        $recipe = Recipe::findOrFail($id);
+        $recipe->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Recipe Deleted successfully'
+        ], 204);
     }
+
 }

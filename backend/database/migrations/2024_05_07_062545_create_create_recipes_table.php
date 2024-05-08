@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->enum('time_unit', [1, 2, 3])->comment("1 = second, 2 = minute, 3 = hour");
             $table->unsignedBigInteger('numberofpeople');
             $table->text('ingredients');
-            $table->text('method');
+            $table->text('instructions');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
