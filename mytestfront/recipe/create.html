@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Create recipe</title>
+</head>
+
+<body>
+    <h1>Create recipe</h1>
+
+    <!-- Input fields for recipe attributes -->
+    <input type="text" id="name" placeholder="Name"><br>
+    <input type="file" id="image" placeholder="Image"><br>
+    <input type="text" id="category_id" placeholder="Category ID"><br>
+    <input type="text" id="numberofpeople" placeholder="Number of People"><br>
+    <input type="text" id="time" placeholder="Time"><br>
+    <input type="text" id="time_unit" placeholder="Time Unit"><br>
+    <input type="text" id="ingredients" placeholder="Ingredients"><br>
+    <input type="text" id="instructions" placeholder="Instructions"><br>
+    <input type="hidden" id="user_id" value="1">
+
+    <button id="createRecipeBtn">Create Recipe</button>
+
+    <script>
+        document.getElementById('createRecipeBtn').addEventListener('click', function () {
+            // Get input values
+            const name = document.getElementById('name').value;
+            const image = document.getElementById('image').files[0];
+            const category_id = document.getElementById('category_id').value;
+            const numberofpeople = document.getElementById('numberofpeople').value;
+            const time = document.getElementById('time').value;
+            const time_unit = document.getElementById('time_unit').value;
+            const ingredients = document.getElementById('ingredients').value;
+            const instructions = document.getElementById('instructions').value;
+            const user_id = document.getElementById('user_id').value;
+
+            // Create FormData object
+            const formData = new FormData();
+            formData.append('name', name);
+            formData.append('image', image);
+            formData.append('category_id', category_id);
+            formData.append('numberofpeople', numberofpeople);
+            formData.append('time', time);
+            formData.append('time_unit', time_unit);
+            formData.append('ingredients', ingredients);
+            formData.append('instructions', instructions);
+            formData.append('user_id', user_id);
+
+            // Send form data via fetch
+            fetch('http://127.0.0.1:8000/api/recipe', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data); // Handle response data
+                    alert(data.message); // Show success message
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while creating the recipe.');
+                });
+        });
+    </script>
+</body>
+
+</html>

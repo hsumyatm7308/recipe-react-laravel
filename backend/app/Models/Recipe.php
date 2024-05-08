@@ -18,7 +18,7 @@ class Recipe extends Model
         'time_unit',
         'numberofpeople',
         'ingredients',
-        'method',
+        'instructions',
         'user_id'
     ];
 }
