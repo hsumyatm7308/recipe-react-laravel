@@ -25,6 +25,7 @@ Route::post('/auth/register', [UserController::class, 'createUser']);
 Route::post('/auth/login', [UserController::class, 'loginUser']);
 // Route::get('/recipe/create', [RecipeController::class, 'createrecipe']);
 Route::apiResource('recipe', RecipeController::class, ["as" => "api"]);
+// Route::get('/recipe/update/{id}', [RecipeController::class, 'updaterecipe']);
 
 
 
