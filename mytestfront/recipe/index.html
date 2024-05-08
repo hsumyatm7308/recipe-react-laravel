@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Show recipe</title>
+</head>
+
+<body>
+    <h1>All recipes</h1>
+
+    <div id="recipeDetails"> </div>
+
+    <script>
+        // Function to fetch and display recipe details
+        function fetchRecipeDetails() {
+            fetch('http://127.0.0.1:8000/api/recipe')
+                .then(response => response.json())
+                .then(data => {
+                    const recipes = data.data;
+                    const recipeDetailsDiv = document.getElementById('recipeDetails');
+
+                    recipes.forEach(recipe => {
+                        const recipeDiv = document.createElement('div');
+                        recipeDiv.innerHTML = `
+                        <h2>${recipe.name}</h2>
+                        <p>Image: <img src="" alt="${recipe.name}" width="200"></p>
+                        <p>Category ID: ${recipe.category_id}</p>
+                        <p>Time: ${recipe.time} ${recipe.time_unit}</p>
+                        <p>Number of People: ${recipe.numberofpeople}</p>
+                        <p>Ingredients:</p>
+                        <ul>
+                            ${recipe.ingredients}
+                        </ul>
+                        <p>Method: ${recipe.instructions}</p>
+                        <button class="deleteBtn" data-recipe-id="${recipe.id}">Delete</button>
+                        
+                        `;
+                        recipeDetailsDiv.appendChild(recipeDiv);
+                    });
+
+
+                    const deleteButtons = document.querySelectorAll('.deleteBtn');
+                    deleteButtons.forEach(button => {
+                        button.addEventListener('click', function () {
+                            const recipeId = this.getAttribute('data-recipe-id');
+                            const confirmation = confirm("Are you sure you want to delete this recipe?");
+                            if (confirmation) {
+
+                                fetch(`http://127.0.0.1:8000/api/recipe/${recipeId}`, {
+                                    method: 'DELETE'
+                                })
+                                    .then(response => {
+                                        if (response.ok) {
+                                            this.parentNode.remove();
+                                        } else {
+                                            throw new Error('Failed to delete recipe');
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Error:', error);
+                                        alert('An error occurred while deleting the recipe.');
+                                    });
+                            }
+                        });
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching recipe details.');
+                });
+
+
+        }
+
+        // window.onload = function () {
+        fetchRecipeDetails();
+        // };
+
+
+
+
+
+    </script>
+</body>
+
+</html>

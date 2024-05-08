@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Show recipe</title>
+</head>
+
+<body>
+    <h1>Show recipe</h1>
+
+    <div id="recipeDetails"> </div>
+
+    <script>
+        // Function to fetch and display recipe details
+        function fetchRecipeDetails(recipeId) {
+            fetch('http://127.0.0.1:8000/api/recipe/' + recipeId)
+                .then(response => response.json())
+                .then(data => {
+                    const recipe = data.data;
+
+                    const recipeDetailsHTML = `
+                        <h2>${recipe.name}</h2>
+                        <p>Image: <img src="${recipe.image}" alt="${recipe.name}" width="200"></p>
+                        <p>Category ID: ${recipe.category_id}</p>
+                        <p>Time: ${recipe.time} ${recipe.time_unit}</p>
+                        <p>Number of People: ${recipe.numberofpeople}</p>
+                        <p>Ingredients:</p>
+                        <ul>
+                            ${recipe.ingredients}
+                        </ul>
+                        <p>Method: ${recipe.instructions}</p>
+                    `;
+
+                    document.getElementById('recipeDetails').innerHTML = recipeDetailsHTML;
+
+
+                    console.log(recipe)
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while fetching recipe details.');
+                });
+        }
+
+        window.onload = function () {
+            fetchRecipeDetails(3);
+        };
+    </script>
+</body>
+
+</html>
