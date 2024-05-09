@@ -25,6 +25,7 @@ class RecipeResource extends JsonResource
             'numberofpeople' => $this->numberofpeople,
             'ingredients' => $this->ingredients,
             'instructions' => $this->instructions,
+            'user_id' => $this->user_id,
             'created_at' => $this->created_at->format("d m Y"),
             'updated_at' => $this->updated_at->format("d m Y")
         ];
