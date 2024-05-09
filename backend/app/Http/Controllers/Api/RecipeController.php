@@ -16,11 +16,16 @@ class RecipeController extends Controller
      */
     public function index()
     {
-        $allrecipes = Recipe::all();
+        $userid = Auth::user()->id;
+        $allrecipes = Recipe::where('user_id', $userid)->get();
         return response()->json([
-            'data' => RecipeResource::collection($allrecipes)
+            'data' => RecipeResource::collection($allrecipes),
         ], 200);
 
+
+
+        // My Note ::
+        //  1. Bio, Username from user account 
 
     }
 
@@ -43,12 +48,14 @@ class RecipeController extends Controller
         ]);
 
 
-        // $user = Auth::user();
-        // $user_id = $user->id;
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $validatedData['user_id'] = $user_id;
 
         if ($validatedData['image']) {
             $file = $request['image'];
-            $imagenewname = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/img/recipe/'), $imagenewname);
 
             $filepath = 'assets/img/recipe/' . $imagenewname;
@@ -97,6 +104,13 @@ class RecipeController extends Controller
             'user_id' => 'required'
         ]);
 
+
+
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $validatedData['user_id'] = $user_id;
+
         $recipe = Recipe::findOrFail($id);
 
         // Remove Old Image
@@ -110,7 +124,7 @@ class RecipeController extends Controller
 
         if ($validatedData['image']) {
             $file = $request['image'];
-            $imagenewname = uniqid() . '_' . time() . '.' . $file->getClientOriginalExtension();
+            $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('assets/img/recipe/'), $imagenewname);
 
             $filepath = 'assets/img/recipe/' . $imagenewname;
