@@ -25,10 +25,20 @@ class HomeController extends Controller
             'categories' => CategoryResource::collection($categories)
         ], 200);
 
-        // http://127.0.0.1:8000/api/home?page=2 
+        // http://127.0.0.1:8000/api/home?page=${pageId}
 
 
     }
 
+    public function show(string $id)
+    {
+        $showrecipe = Recipe::findOrFail($id);
+        return response()->json([
+            'recipe' => new RecipeResource($showrecipe)
+        ], 200);
+
+        // http://127.0.0.1:8000/api/home/${recipeId}
+
+    }
 
 }

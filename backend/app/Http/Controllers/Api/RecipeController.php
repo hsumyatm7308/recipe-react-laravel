@@ -21,7 +21,6 @@ class RecipeController extends Controller
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
 
-
         $userid = Auth::user()->id;
         $allrecipes = Recipe::where('user_id', $userid)->get();
         return response()->json([
