@@ -2,18 +2,18 @@
 <html>
 
 <head>
-    <title>All recipe</title>
+    <title>Home recipe</title>
 </head>
 
 <body>
-    <h1>All recipes</h1>
+    <h1>Home recipes</h1>
 
     <div id="recipeDetails"> </div>
 
     <script>
-        // Function to fetch and display recipe details
+        const pageid = 3;
         function fetchRecipeDetails() {
-            fetch('http://127.0.0.1:8000/api/recipe')
+            fetch('http://127.0.0.1:8000/api/home?page=' + pageid)
                 .then(response => response.json())
                 .then(data => {
                     const datas = data;
@@ -74,9 +74,9 @@
 
         }
 
-        window.onload = function () {
-            fetchRecipeDetails();
-        };
+        // window.onload = function () {
+        fetchRecipeDetails();
+        // };
 
 
 

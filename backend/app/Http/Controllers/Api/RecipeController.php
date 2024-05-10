@@ -16,10 +16,16 @@ class RecipeController extends Controller
      */
     public function index()
     {
+
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+
+
         $userid = Auth::user()->id;
         $allrecipes = Recipe::where('user_id', $userid)->get();
         return response()->json([
-            'data' => RecipeResource::collection($allrecipes),
+            'recipes' => RecipeResource::collection($allrecipes),
         ], 200);
 
 
@@ -43,7 +49,7 @@ class RecipeController extends Controller
             'time_unit' => 'required',
             'numberofpeople' => 'required|integer|min:1',
             'ingredients' => 'required', // array
-            'instructions' => 'required|string',
+            'instructions' => 'required',
             'user_id' => 'required'
         ]);
 
@@ -69,7 +75,7 @@ class RecipeController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Recipe created successfully',
-            'data' => new RecipeResource($createrecipe)
+            'recipe' => new RecipeResource($createrecipe)
         ], 201);
 
     }
@@ -83,7 +89,7 @@ class RecipeController extends Controller
     {
         $showrecipe = Recipe::findOrFail($id);
         return response()->json([
-            'data' => new RecipeResource($showrecipe)
+            'recipe' => new RecipeResource($showrecipe)
         ], 200);
     }
 
@@ -100,7 +106,7 @@ class RecipeController extends Controller
             'time_unit' => 'required',
             'numberofpeople' => 'required|integer|min:1',
             'ingredients' => 'required', // array
-            'instructions' => 'required|string',
+            'instructions' => 'required',
             'user_id' => 'required'
         ]);
 
@@ -138,7 +144,7 @@ class RecipeController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Recipe updated successfully',
-            'data' => new RecipeResource($recipe)
+            'recipe' => new RecipeResource($recipe)
         ], 200);
     }
 
