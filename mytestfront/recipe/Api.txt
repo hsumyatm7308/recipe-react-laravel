@@ -1,0 +1,120 @@
+USER POST CRUD ( Need Authentication )🔹
+
+=> create api
+
+   http://127.0.0.1:8000/api/recipe
+   
+   Method = POST
+   
+ -----------------------
+ 
+=> edit api ( show old values)  ( May 12 🔴)
+
+   http://127.0.0.1:8000/api/recipe/edit/${recipeId}
+
+   Method = POST 
+
+------------------------------
+ 
+=> update api 
+  
+  http://127.0.0.1:8000/api/recipe/${recipeId}?_method=PUT
+  
+  Method = POST 
+  
+ -------------------------
+ 
+=> show current login-user's posts api   ( changed  - 🔴))
+
+  http://127.0.0.1:8000/api/recipe
+  
+  Method = GET
+  
+  -----------------------
+  
+=> show detail api 
+
+  http://127.0.0.1:8000/api/recipe/${recipeId}
+  
+  Mthod = GET
+  
+  ---------------------------
+  
+=> delete api 
+
+   http://127.0.0.1:8000/api/recipe/${recipeId}
+   
+   Method = DELETE
+   
+-------------------------------------------------------
+
+
+
+
+
+HOME  Page  ( No Need Auth)🔹
+
+New - ( May 10 )  ✅📣
+
+=> show all recipes and categories  (update category 🔴) 
+
+   http://127.0.0.1:8000/api/home?page=${pageId}
+
+   Method = GET
+
+   ------------------
+   
+=> show detail 
+
+   http://127.0.0.1:8000/api/home/${recipeId}
+
+   Method = GET
+
+   --------------------
+
+
+
+
+
+
+--------------------------------------
+
+Category Page ( No Need Auth)🔹
+
+New - ( May 12 ) ✅📣
+
+=> show recipes that related category 
+
+   http://127.0.0.1:8000/api/category/${categoryId}
+   
+   Method = GET 
+   
+   ------------------------
+   
+  ❗️Remark:: php artisan db:seed --class=CategorySeeder
+   
+ 
+ ----------------------------------------
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ Search Page ( No Need Auth ) 🔹
+ 
+ New - ( May 12 ) ✅📣
+ 
+ => search recipes with name and category
+ 
+ http://127.0.0.1:8000/api/search?search_name=${searchName} 
+ 
+
+-------------------------------------------------
+Note:: 
+
+🔴     = updated
+🔹     = another route
+✅📣   = new
+

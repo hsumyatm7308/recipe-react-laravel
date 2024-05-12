@@ -9,11 +9,17 @@ class Category extends Model
 {
     use HasFactory;
 
-    use HasFactory;
     protected $table = 'categories';
     protected $primaryKey = 'id';
     protected $fillable = [
         'name',
         'user_id'
     ];
+
+
+    // public function user()
+    // {
+    //     return $this->belongsTo(User::class);
+    // }
+
 }

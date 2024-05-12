@@ -25,7 +25,7 @@ class RecipeController extends Controller
         $allrecipes = Recipe::where('user_id', $userid)->get();
         return response()->json([
             'recipes' => RecipeResource::collection($allrecipes),
-        ], 200);
+        ], 200, [], JSON_UNESCAPED_UNICODE);
 
 
 
@@ -58,6 +58,9 @@ class RecipeController extends Controller
 
         $validatedData['user_id'] = $user_id;
 
+        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
+        $validatedData['instructions'] = json_encode($validatedData['instructions']);
+
         if ($validatedData['image']) {
             $file = $request['image'];
             $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -89,7 +92,20 @@ class RecipeController extends Controller
         $showrecipe = Recipe::findOrFail($id);
         return response()->json([
             'recipe' => new RecipeResource($showrecipe)
+        ], 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
+
+
+    public function edit(string $id)
+    {
+
+        $recipe = Recipe::findOrFail($id);
+        return response()->json([
+            'recipe' => new RecipeResource($recipe)
         ], 200);
+
+        // http://127.0.0.1:8000/api/recipe/edit/${recipeId}
     }
 
     /**
@@ -114,7 +130,11 @@ class RecipeController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
 
+
         $validatedData['user_id'] = $user_id;
+
+        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
+        $validatedData['instructions'] = json_encode($validatedData['instructions']);
 
         $recipe = Recipe::findOrFail($id);
 

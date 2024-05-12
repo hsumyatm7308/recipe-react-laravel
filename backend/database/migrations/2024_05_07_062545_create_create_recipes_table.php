@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->string('time');
             $table->enum('time_unit', [1, 2, 3])->comment("1 = second, 2 = minute, 3 = hour");
             $table->unsignedBigInteger('numberofpeople');
-            $table->text('ingredients');
-            $table->text('instructions');
+            $table->json('ingredients');
+            $table->json('instructions');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });

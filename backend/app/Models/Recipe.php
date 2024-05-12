@@ -21,4 +21,27 @@ class Recipe extends Model
         'instructions',
         'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function scopesearch($query)
+    {
+        if ($getname = request('search_name')) {
+            $query->where('name', 'LIKE', '%' . $getname . '%')
+                ->orWhereHas('category', function ($query) use ($getname) {
+                    $query->where('name', 'LIKE', '%' . $getname . '%');
+                });
+        }
+
+        return $query;
+    }
+
 }

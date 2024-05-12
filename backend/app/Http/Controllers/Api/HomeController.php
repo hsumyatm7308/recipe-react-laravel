@@ -18,14 +18,19 @@ class HomeController extends Controller
     public function index()
     {
 
-        $allrecipes = Recipe::paginate(2);
+        $allrecipes = Recipe::paginate(12);
+
         $categories = Category::all();
         return response()->json([
             'recipes' => RecipeResource::collection($allrecipes),
-            'categories' => CategoryResource::collection($categories)
-        ], 200);
+            'categories' => CategoryResource::collection($categories),
+
+        ], 200, [], JSON_UNESCAPED_UNICODE);
 
         // http://127.0.0.1:8000/api/home?page=${pageId}
+
+
+        // Note :: popular 
 
 
     }
@@ -33,12 +38,15 @@ class HomeController extends Controller
     public function show(string $id)
     {
         $showrecipe = Recipe::findOrFail($id);
+
         return response()->json([
-            'recipe' => new RecipeResource($showrecipe)
-        ], 200);
+            'recipe' => new RecipeResource($showrecipe),
+        ], 200, [], JSON_UNESCAPED_UNICODE);
 
         // http://127.0.0.1:8000/api/home/${recipeId}
 
     }
+
+
 
 }
