@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    // Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [UserController::class, 'logout']);
     Route::apiResource('recipe', RecipeController::class, ["as" => "api"]);
     Route::post('recipe/edit/{id}', [RecipeController::class, 'edit']);
 

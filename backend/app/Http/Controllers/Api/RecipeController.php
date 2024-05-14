@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
+
 class RecipeController extends Controller
 {
     /**
@@ -20,6 +21,7 @@ class RecipeController extends Controller
         if (!Auth::check()) {
             return response()->json(['error' => 'Unauthenticated.'], 401);
         }
+
 
         $userid = Auth::user()->id;
         $allrecipes = Recipe::where('user_id', $userid)->get();
@@ -61,6 +63,10 @@ class RecipeController extends Controller
         $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
         $validatedData['instructions'] = json_encode($validatedData['instructions']);
 
+
+        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
+        $validatedData['instructions'] = json_encode($validatedData['instructions']);
+
         if ($validatedData['image']) {
             $file = $request['image'];
             $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
@@ -68,9 +74,8 @@ class RecipeController extends Controller
 
             $filepath = 'assets/img/recipe/' . $imagenewname;
             $validatedData['image'] = $filepath;
-
-
         }
+
 
         $createrecipe = Recipe::create($validatedData);
 
@@ -81,7 +86,6 @@ class RecipeController extends Controller
         ], 201);
 
     }
-
 
 
     /**

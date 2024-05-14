@@ -20,10 +20,8 @@ class HomeController extends Controller
 
         $allrecipes = Recipe::paginate(12);
 
-        $categories = Category::all();
         return response()->json([
             'recipes' => RecipeResource::collection($allrecipes),
-            'categories' => CategoryResource::collection($categories),
 
         ], 200, [], JSON_UNESCAPED_UNICODE);
 

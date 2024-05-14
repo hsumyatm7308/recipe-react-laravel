@@ -18,7 +18,7 @@ class CategoryController extends Controller
             'categories' => CategoryResource::collection($categories)
         ], 200);
 
-        // http://127.0.0.1:8000/api/category/${categoryId}
+        // http://127.0.0.1:8000/api/category
     }
 
     public function show(string $id)
