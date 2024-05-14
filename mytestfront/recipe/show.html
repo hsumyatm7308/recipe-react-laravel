@@ -16,22 +16,22 @@
             fetch('http://127.0.0.1:8000/api/recipe/' + recipeId)
                 .then(response => response.json())
                 .then(data => {
-                    const recipe = data.data;
+                    const recipe = data['recipes'];
 
-                    const recipeDetailsHTML = `
-                        <h2>${recipe.name}</h2>
-                        <p>Image: <img src="${recipe.image}" alt="${recipe.name}" width="200"></p>
-                        <p>Category ID: ${recipe.category_id}</p>
-                        <p>Time: ${recipe.time} ${recipe.time_unit}</p>
-                        <p>Number of People: ${recipe.numberofpeople}</p>
-                        <p>Ingredients:</p>
-                        <ul>
-                            ${recipe.ingredients}
-                        </ul>
-                        <p>Method: ${recipe.instructions}</p>
-                    `;
+                    // const recipeDetailsHTML = `
+                    //     <h2>${recipe.name}</h2>
+                    //     <p>Image: <img src="${recipe.image}" alt="${recipe.name}" width="200"></p>
+                    //     <p>Category ID: ${recipe.category_id}</p>
+                    //     <p>Time: ${recipe.time} ${recipe.time_unit}</p>
+                    //     <p>Number of People: ${recipe.numberofpeople}</p>
+                    //     <p>Ingredients:</p>
+                    //     <ul>
+                    //         ${recipe.ingredients}
+                    //     </ul>
+                    //     <p>Method: ${recipe.instructions}</p>
+                    // `;
 
-                    document.getElementById('recipeDetails').innerHTML = recipeDetailsHTML;
+                    // document.getElementById('recipeDetails').innerHTML = recipeDetailsHTML;
 
 
                     console.log(recipe)
@@ -49,3 +49,18 @@
 </body>
 
 </html>
+
+
+<!-- public function index()
+{
+$recipes = Recipe::where(function ($query) {
+if ($getname = request('search_name')) {
+$query->where('name', 'LIKE', '%' . $getname . '%');
+}
+})->paginate(3); // Note :: react can search Although If I send all data
+return response()->json([
+'recipes' => RecipeResource::collection($recipes),
+], 200);
+
+// http://127.0.0.1:8000/api/search?search_name=${searchName}
+} -->

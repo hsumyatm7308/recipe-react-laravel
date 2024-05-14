@@ -10,16 +10,9 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('recipes', function (Blueprint $table) {
+        Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image');
-            $table->unsignedBigInteger('category_id');
-            $table->string('time');
-            $table->enum('time_unit', [1, 2, 3])->comment("1 = second, 2 = minute, 3 = hour");
-            $table->unsignedBigInteger('numberofpeople');
-            $table->json('ingredients');
-            $table->json('instructions');
             $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
@@ -30,6 +23,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('recipes');
+        Schema::dropIfExists('categories');
     }
 };
