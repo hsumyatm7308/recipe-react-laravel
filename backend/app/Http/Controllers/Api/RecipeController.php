@@ -70,9 +70,9 @@ class RecipeController extends Controller
         if ($validatedData['image']) {
             $file = $request['image'];
             $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/img/recipe/'), $imagenewname);
+            $file->move('recipes/images', $imagenewname);
 
-            $filepath = 'assets/img/recipe/' . $imagenewname;
+            $filepath = 'recipes/images/' . $imagenewname;
             $validatedData['image'] = $filepath;
         }
 
@@ -154,9 +154,9 @@ class RecipeController extends Controller
         if ($validatedData['image']) {
             $file = $request['image'];
             $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/img/recipe/'), $imagenewname);
+            $file->move('recipes/images', $imagenewname);
 
-            $filepath = 'assets/img/recipe/' . $imagenewname;
+            $filepath = 'recipes/images/' . $imagenewname;
             $validatedData['image'] = $filepath;
 
 
