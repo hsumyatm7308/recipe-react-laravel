@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 
+
 class RecipeController extends Controller
 {
     /**
@@ -16,11 +17,17 @@ class RecipeController extends Controller
      */
     public function index()
     {
+
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthenticated.'], 401);
+        }
+
+
         $userid = Auth::user()->id;
         $allrecipes = Recipe::where('user_id', $userid)->get();
         return response()->json([
-            'data' => RecipeResource::collection($allrecipes),
-        ], 200);
+            'recipes' => RecipeResource::collection($allrecipes),
+        ], 200, [], JSON_UNESCAPED_UNICODE);
 
 
 
@@ -43,7 +50,7 @@ class RecipeController extends Controller
             'time_unit' => 'required',
             'numberofpeople' => 'required|integer|min:1',
             'ingredients' => 'required', // array
-            'instructions' => 'required|string',
+            'instructions' => 'required',
             'user_id' => 'required'
         ]);
 
@@ -53,27 +60,32 @@ class RecipeController extends Controller
 
         $validatedData['user_id'] = $user_id;
 
+        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
+        $validatedData['instructions'] = json_encode($validatedData['instructions']);
+
+
+        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
+        $validatedData['instructions'] = json_encode($validatedData['instructions']);
+
         if ($validatedData['image']) {
             $file = $request['image'];
             $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/img/recipe/'), $imagenewname);
+            $file->move('recipes/images', $imagenewname);
 
-            $filepath = 'assets/img/recipe/' . $imagenewname;
+            $filepath = 'recipes/images/' . $imagenewname;
             $validatedData['image'] = $filepath;
-
-
         }
+
 
         $createrecipe = Recipe::create($validatedData);
 
         return response()->json([
             'status' => true,
             'message' => 'Recipe created successfully',
-            'data' => new RecipeResource($createrecipe)
+            'recipe' => new RecipeResource($createrecipe)
         ], 201);
 
     }
-
 
 
     /**
@@ -83,8 +95,21 @@ class RecipeController extends Controller
     {
         $showrecipe = Recipe::findOrFail($id);
         return response()->json([
-            'data' => new RecipeResource($showrecipe)
+            'recipe' => new RecipeResource($showrecipe)
+        ], 200, [], JSON_UNESCAPED_UNICODE);
+    }
+
+
+
+    public function edit(string $id)
+    {
+
+        $recipe = Recipe::findOrFail($id);
+        return response()->json([
+            'recipe' => new RecipeResource($recipe)
         ], 200);
+
+        // http://127.0.0.1:8000/api/recipe/edit/${recipeId}
     }
 
     /**
@@ -100,7 +125,7 @@ class RecipeController extends Controller
             'time_unit' => 'required',
             'numberofpeople' => 'required|integer|min:1',
             'ingredients' => 'required', // array
-            'instructions' => 'required|string',
+            'instructions' => 'required',
             'user_id' => 'required'
         ]);
 
@@ -109,7 +134,11 @@ class RecipeController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
 
+
         $validatedData['user_id'] = $user_id;
+
+        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
+        $validatedData['instructions'] = json_encode($validatedData['instructions']);
 
         $recipe = Recipe::findOrFail($id);
 
@@ -125,9 +154,9 @@ class RecipeController extends Controller
         if ($validatedData['image']) {
             $file = $request['image'];
             $imagenewname = uniqid($user_id) . '_' . time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('assets/img/recipe/'), $imagenewname);
+            $file->move('recipes/images', $imagenewname);
 
-            $filepath = 'assets/img/recipe/' . $imagenewname;
+            $filepath = 'recipes/images/' . $imagenewname;
             $validatedData['image'] = $filepath;
 
 
@@ -138,7 +167,7 @@ class RecipeController extends Controller
         return response()->json([
             'status' => true,
             'message' => 'Recipe updated successfully',
-            'data' => new RecipeResource($recipe)
+            'recipe' => new RecipeResource($recipe)
         ], 200);
     }
 

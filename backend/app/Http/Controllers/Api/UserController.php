@@ -33,7 +33,12 @@ class UserController extends Controller
                 ], 401);
             }
 
+
+            $image_namesplit = str_split($request->name);
+
+
             $user = User::create([
+                'image' => ucfirst($image_namesplit[0]),
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
@@ -42,7 +47,8 @@ class UserController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User created successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'user' => $user
             ], 200);
 
         } catch (\Throwable $th) {
@@ -83,6 +89,7 @@ class UserController extends Controller
 
             $user = User::where('email', $request->email)->first();
 
+
             return response()->json([
                 'status' => true,
                 'message' => 'User logged in successfully',
@@ -95,5 +102,17 @@ class UserController extends Controller
                 'message' => $th->getMessage()
             ], 500);
         }
+    }
+
+
+    public function logout(Request $request)
+    {
+        $request->user()->currentAccessToken()->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'User logged Out successfully',
+        ], 200);
+
     }
 }

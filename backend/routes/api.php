@@ -1,7 +1,8 @@
 <?php
-
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\HomeController;
 use App\Http\Controllers\Api\RecipeController;
+use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
@@ -23,8 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware' => ['auth:sanctum']], function () {
-    // Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/auth/logout', [UserController::class, 'logout']);
     Route::apiResource('recipe', RecipeController::class, ["as" => "api"]);
+    Route::post('recipe/edit/{id}', [RecipeController::class, 'edit']);
 
 });
 
@@ -34,6 +36,9 @@ Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 // home 
 Route::apiResource('/home', HomeController::class, ["as" => "api"]);
+Route::apiResource('/search', SearchController::class, ["as" => "api"]);
+Route::apiResource('/category', CategoryController::class, ["as" => "api"]);
+
 
 
 
