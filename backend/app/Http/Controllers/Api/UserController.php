@@ -33,7 +33,12 @@ class UserController extends Controller
                 ], 401);
             }
 
+
+            $image_namesplit = str_split($request->name);
+
+
             $user = User::create([
+                'image' => ucfirst($image_namesplit[0]),
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
@@ -42,7 +47,8 @@ class UserController extends Controller
             return response()->json([
                 'status' => true,
                 'message' => 'User created successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
+                'token' => $user->createToken("API TOKEN")->plainTextToken,
+                'user' => $user
             ], 200);
 
         } catch (\Throwable $th) {
