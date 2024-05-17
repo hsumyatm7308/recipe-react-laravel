@@ -34,7 +34,7 @@ Route::post('/auth/register', [UserController::class, 'createUser']);
 Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 
-// home 
+// home
 Route::apiResource('/home', HomeController::class, ["as" => "api"]);
 Route::apiResource('/search', SearchController::class, ["as" => "api"]);
 Route::apiResource('/category', CategoryController::class, ["as" => "api"]);

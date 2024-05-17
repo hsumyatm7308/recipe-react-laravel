@@ -23,6 +23,7 @@ module.exports = {
         success: "#53B175",
         dark: "#000000",
         danger: "#EC3636",
+        textGray: "#5B5B5B",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
