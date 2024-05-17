@@ -9,9 +9,28 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useSignOutMutation } from "../store/services/endpoints/auth";
+import { removeUser } from "../store/slices/authSlice";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
 
-export function NavAccDropDown() {
+export function NavAccDropDown({ userData }) {
+  const token = Cookies.get("token");
+  const [signOut] = useSignOutMutation();
+  const nav = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleSignOut = async () => {
+    const { data } = await signOut(token);
+    console.log(data);
+    if (data?.status) {
+      toast(data?.message);
+      dispatch(removeUser());
+      nav("/sign-in");
+    }
+  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,11 +41,13 @@ export function NavAccDropDown() {
         >
           <Avatar className="h-[30px] w-[30px]">
             <AvatarImage
-              src="https://github.com/shadcn.png"
-              alt="@shadcn"
+              src={userData.image}
+              alt="user profile image"
               className=" rounded-full"
             />
-            <AvatarFallback>CN</AvatarFallback>
+            <AvatarFallback className="border">
+              {userData.name[0].toUpperCase()}
+            </AvatarFallback>
           </Avatar>
           <div className=" scale-0 group-hover:scale-100 delay-300 transition duration-300 animate-in fade-in-0 text-sm bottom-[-40px] rounded-md  group-hover:block zoom-in-95 absolute border z-50 px-3 py-1.5 bg-white">
             Profile
@@ -35,12 +56,18 @@ export function NavAccDropDown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-[250px] px-0 rounded-[13px]">
         <DropdownMenuLabel className=" h-[100px] flex items-center space-x-2 p-[15px]">
-          <div className="w-[50px] h-[50px] rounded-full bg-gray-400">
-            {/* <img src="" alt="Pp" className=" object-cover " /> */}
-          </div>
+          {userData.image ? (
+            <div className="w-[50px] h-[50px] rounded-full">
+              <img src={userData.image} alt="Pp" className=" object-cover " />
+            </div>
+          ) : (
+            <div className="w-[50px] h-[50px] rounded-full bg-gray-200 flex items-center justify-center text-3xl">
+              {userData.name[0].toUpperCase()}
+            </div>
+          )}
           <div>
-            <h4 className=" text-base font-medium">Mr.chef</h4>
-            <Link to="#" className=" text-main text-xs font-light">
+            <h4 className=" text-base font-medium">{userData.name}</h4>
+            <Link to="/profile" className=" text-main text-xs font-light">
               view profile
             </Link>
           </div>
@@ -120,7 +147,10 @@ export function NavAccDropDown() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuGroup className="px-[15px] pb-[15px] mt-[32px]">
-          <DropdownMenuItem className="flex space-x-3 rounded-[13px] px-3 h-9 focus:text-danger focus:bg-[#E9EBF8]">
+          <DropdownMenuItem
+            className="flex space-x-3 rounded-[13px] px-3 h-9 focus:text-danger focus:bg-[#E9EBF8]"
+            onClick={handleSignOut}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

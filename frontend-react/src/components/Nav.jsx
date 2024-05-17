@@ -1,4 +1,3 @@
-import { ChefHat } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 import IconBtn from "./IconBtn";
 import PrimaryBtn from "./PrimaryBtn";
@@ -11,17 +10,23 @@ import {
 } from "./ui/tooltip";
 import { NavAccDropDown } from "./NavAccDropDown";
 import NotiDropDown from "./NotiDropDown";
+import Cookies from "js-cookie";
 
 const Nav = () => {
   const { pathname } = useLocation();
-  const login = true;
+  let userData = undefined;
+  if (Cookies.get("userData")) {
+    userData = JSON.parse(Cookies.get("userData"));
+  }
+
   return (
     <main className=" border-b">
       <nav className="px-4 sm:container mx-auto justify-between md:justify-start flex items-center gap-10 h-16 sm:h-20 text-lg ">
-        <Link to="/" className=" flex items-center space-x-1 text-main">
-          <ChefHat size={40} />
+        <Link to="/" className=" flex items-center space-x-2 text-main">
+          <img src="/logo.svg" alt="logo" className=" w-[22px] h-[22px] " />
           <h1 className="font-[mmFont] text-lg">ချက်ကြမယ်</h1>
         </Link>
+
         {/* nav item  */}
         <section className="hidden md:flex items-center space-x-[22px] font-medium h-full grow">
           <Link
@@ -51,6 +56,7 @@ const Nav = () => {
             ဆက်သွယ်ရန်
           </Link>
         </section>
+
         {/* nav icons  */}
         <section className="hidden lg:flex items-center">
           {!pathname.includes("/search") && (
@@ -87,7 +93,7 @@ const Nav = () => {
             </Link>
           )}
           {pathname !== "/profile/recipes/create" && (
-            <Link to="/recipes/create">
+            <Link to="/profile/recipes/create">
               <PrimaryBtn className="w-auto h-10 mx-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -125,10 +131,10 @@ const Nav = () => {
               </svg>
             </IconBtn>
           </Link>
-          {login ? (
-            <NavAccDropDown />
+          {userData ? (
+            <NavAccDropDown userData={userData} />
           ) : (
-            <Link to="/login">
+            <Link to="/sign-in">
               <Button
                 variant="ghost"
                 className="text-main text-base hover:text-main rounded-[13px]"
