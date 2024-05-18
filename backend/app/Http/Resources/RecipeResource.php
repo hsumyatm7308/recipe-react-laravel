@@ -17,19 +17,38 @@ class RecipeResource extends JsonResource
     {
         // return parent::toArray($request);
         return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'image' => $this->image,
-            'category_id' => $this->category_id,
-            'category_name' => $this->category->name,
-            'time' => $this->time,
-            'time_unit' => $this->time_unit,
-            'numberofpeople' => $this->numberofpeople,
-            'ingredients' => json_decode($this->ingredients),
-            'instructions' => json_decode($this->instructions),
-            'user_id' => $this->user_id,
-            'created_at' => $this->created_at->format("d m Y"),
-            'updated_at' => $this->updated_at->format("d m Y"),
+
+            'info' => [
+                'id' => $this->id,
+                'name' => $this->name,
+                'image' => $this->image,
+                'created_at' => $this->created_at->format("d m Y"),
+                'updated_at' => $this->updated_at->format("d m Y"),
+            ],
+
+            'categories' => [
+                'category_id' => $this->category_id,
+                'category_name' => $this->category->name,
+            ],
+
+            'facts' => [
+                'time' => $this->time,
+                'time_unit' => $this->time_unit,
+                'numberofpeople' => $this->numberofpeople,
+            ],
+
+            'cooking' => [
+                'ingredients' => json_decode($this->ingredients),
+                'instructions' => json_decode($this->instructions),
+            ],
+
+            'user' => [
+                'user_id' => $this->user->id,
+                'user_name' => $this->user->name,
+                'user_image' => $this->user->image
+            ]
+
+
 
         ];
 
