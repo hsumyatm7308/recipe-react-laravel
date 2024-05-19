@@ -22,10 +22,8 @@ class SearchController extends Controller
 
             }
         })->paginate(12);
-        $categories = Category::all();
         return response()->json([
             'recipes' => RecipeResource::collection($recipes),
-            'categories' => CategoryResource::collection($categories),
 
         ], 200, [], JSON_UNESCAPED_UNICODE);
 

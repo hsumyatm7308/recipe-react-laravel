@@ -43,4 +43,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function likes()
+    {
+        return $this->belongsToMany(Recipe::class, 'likes')->withTimestamps();
+    }
+
+    public function checklikes($recipeid)
+    {
+        return $this->likes()->where('recipe_id', $recipeid)->exists();
+    }
 }

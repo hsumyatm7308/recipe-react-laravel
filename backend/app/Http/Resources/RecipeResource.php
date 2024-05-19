@@ -46,8 +46,11 @@ class RecipeResource extends JsonResource
                 'user_id' => $this->user->id,
                 'user_name' => $this->user->name,
                 'user_image' => $this->user->image
-            ]
+            ],
 
+            'addition' => [
+                'like_count' => $this->likes->count()
+            ]
 
 
         ];
