@@ -35,7 +35,6 @@ class CategoryFactory extends Factory
         $categoryName = $this->getuniqueCategoryname($categoryNames);
         return [
             'name' => $categoryName,
-            'user_id' => 1
         ];
     }
 

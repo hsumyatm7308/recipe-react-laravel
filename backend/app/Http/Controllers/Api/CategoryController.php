@@ -13,7 +13,7 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Recipe::all();
+        $categories = Category::all();
         return response()->json([
             'categories' => CategoryResource::collection($categories)
         ], 200);

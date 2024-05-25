@@ -10,9 +10,13 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
+        Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->foreignId('recipe_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained(
+                table: 'users',
+                indexName: 'recipes_user_id'
+            )->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -22,6 +26,9 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::dropIfExists('likes');
     }
 };
+
+
+//php artisan migrate 

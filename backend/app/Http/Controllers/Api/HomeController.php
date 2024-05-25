@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\RecipeResource;
 use App\Models\Category;
+use App\Models\Like;
 use App\Models\Recipe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,6 +20,7 @@ class HomeController extends Controller
     {
 
         $allrecipes = Recipe::paginate(12);
+
 
         return response()->json([
             'recipes' => RecipeResource::collection($allrecipes),
