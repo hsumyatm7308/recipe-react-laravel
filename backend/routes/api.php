@@ -41,6 +41,8 @@ Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 // home
 Route::apiResource('/home', HomeController::class, ["as" => "api"]);
+Route::post('/popular', [HomeController::class, 'popular']);
+
 Route::apiResource('/search', SearchController::class, ["as" => "api"]);
 Route::apiResource('/category', CategoryController::class, ["as" => "api"]);
 
