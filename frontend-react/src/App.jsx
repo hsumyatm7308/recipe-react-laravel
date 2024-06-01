@@ -1,13 +1,6 @@
-import FoodCard from "./components/FoodCard";
-import IconBtn from "./components/IconBtn";
-import OutlineBtn from "./components/OutlineBtn";
-import PrimaryBtn from "./components/PrimaryBtn";
-import SavedCard from "./components/SavedCard";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
-import PopularCard from "./components/PopularCard";
-import CategoryCard from "./components/CategoryCard";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import {
   AboutUsPage,
   AccSettingPage,
@@ -26,6 +19,7 @@ import {
   SignUpPage,
 } from "./pages";
 import { Toaster } from "./components/ui/sonner";
+
 function App() {
   const pages = [
     { path: "/", element: <HomePage /> },
@@ -47,9 +41,12 @@ function App() {
     // fallback
     { path: "*", element: <NotFoundPage /> },
   ];
+  const { pathname } = useLocation();
+  console.log(pathname);
   return (
     <main className=" bg-[#fafafa]">
-      <Nav />
+      {!pathname.includes("/sign-") && <Nav />}
+
       <section className=" sm:container mx-auto ">
         <Routes>
           {pages.map((page) => (
@@ -57,37 +54,7 @@ function App() {
           ))}
         </Routes>
       </section>
-      {/* <section className=" container mx-auto space-y-5 pt-5">
-        <PopularCard />
-        <CategoryCard />
-        <div className="flex items-center space-x-3">
-          <p>Button</p>
-          <PrimaryBtn>Primary</PrimaryBtn>
-          <OutlineBtn>Outline</OutlineBtn>
-          <IconBtn tooltipContent="save">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth={1.5}
-              stroke="currentColor"
-              className="w-6 h-6"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
-              />
-            </svg>
-          </IconBtn>
-        </div>
-        <div className="flex space-x-3 flex-wrap">
-          <FoodCard />
-          <SavedCard />
-        </div>
-        <br />
-      </section> */}
-      <Footer />
+      {!pathname.includes("/sign-") && <Footer />}
       <Toaster />
     </main>
   );

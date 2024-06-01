@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\RecipeResource;
 use App\Models\Recipe;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -25,9 +26,11 @@ class RecipeController extends Controller
 
         $userid = Auth::user()->id;
         $allrecipes = Recipe::where('user_id', $userid)->get();
+
         return response()->json([
             'recipes' => RecipeResource::collection($allrecipes),
         ], 200, [], JSON_UNESCAPED_UNICODE);
+
 
 
 
@@ -60,8 +63,6 @@ class RecipeController extends Controller
 
         $validatedData['user_id'] = $user_id;
 
-        $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
-        $validatedData['instructions'] = json_encode($validatedData['instructions']);
 
 
         $validatedData['ingredients'] = json_encode($validatedData['ingredients']);
@@ -94,6 +95,7 @@ class RecipeController extends Controller
     public function show(string $id)
     {
         $showrecipe = Recipe::findOrFail($id);
+
         return response()->json([
             'recipe' => new RecipeResource($showrecipe)
         ], 200, [], JSON_UNESCAPED_UNICODE);

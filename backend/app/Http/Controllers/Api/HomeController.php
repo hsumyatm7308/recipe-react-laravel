@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\CategoryResource;
 use App\Http\Resources\RecipeResource;
 use App\Models\Category;
+use App\Models\Like;
 use App\Models\Recipe;
+use App\Models\Recipesview;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +21,7 @@ class HomeController extends Controller
     {
 
         $allrecipes = Recipe::paginate(12);
+
 
         return response()->json([
             'recipes' => RecipeResource::collection($allrecipes),
@@ -44,6 +47,20 @@ class HomeController extends Controller
         // http://127.0.0.1:8000/api/home/${recipeId}
 
     }
+
+
+    public function popular()
+    {
+
+        $populars = Recipesview::orderBy('counter', 'desc')->limit(10)->get();
+        return response()->json([
+            'populars' => $populars,
+
+        ], 200, [], JSON_UNESCAPED_UNICODE);
+
+        // http://127.0.0.1:8000/api/popular 
+    }
+
 
 
 

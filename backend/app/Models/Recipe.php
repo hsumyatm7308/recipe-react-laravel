@@ -44,4 +44,12 @@ class Recipe extends Model
         return $query;
     }
 
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, "likes");
+    }
+
+
+
 }

@@ -1,120 +1,215 @@
-USER POST CRUD ( Need Authentication )🔹
+///// Home Page 
 
-=> create api
-
-   http://127.0.0.1:8000/api/recipe
-   
-   Method = POST
-   
- -----------------------
- 
-=> edit api ( show old values)  ( May 12 🔴)
-
-   http://127.0.0.1:8000/api/recipe/edit/${recipeId}
-
-   Method = POST 
-
-------------------------------
- 
-=> update api 
-  
-  http://127.0.0.1:8000/api/recipe/${recipeId}?_method=PUT
-  
-  Method = POST 
-  
- -------------------------
- 
-=> show current login-user's posts api   ( changed  - 🔴))
-
-  http://127.0.0.1:8000/api/recipe
-  
-  Method = GET
-  
-  -----------------------
-  
-=> show detail api 
-
-  http://127.0.0.1:8000/api/recipe/${recipeId}
-  
-  Mthod = GET
-  
-  ---------------------------
-  
-=> delete api 
-
-   http://127.0.0.1:8000/api/recipe/${recipeId}
-   
-   Method = DELETE
-   
--------------------------------------------------------
+=> Popular
 
 
 
 
+   --------------------------------
 
-HOME  Page  ( No Need Auth)🔹
-
-New - ( May 10 )  ✅📣
-
-=> show all recipes and categories  (update category 🔴) 
+=> All Recipes 
 
    http://127.0.0.1:8000/api/home?page=${pageId}
 
    Method = GET
-
-   ------------------
    
-=> show detail 
+   --------------------------------
 
-   http://127.0.0.1:8000/api/home/${recipeId}
+=> Categories 
 
-   Method = GET
-
-   --------------------
-
-
-
-
-
-
---------------------------------------
-
-Category Page ( No Need Auth)🔹
-
-New - ( May 12 ) ✅📣
-
-=> show recipes that related category 
-
-   http://127.0.0.1:8000/api/category/${categoryId}
+   http://127.0.0.1:8000/api/category
    
    Method = GET 
    
-   ------------------------
+   -------------------------------
+
+=> Detail  ( Button )
+
+   http://127.0.0.1:8000/api/home/${recipeId}
+  
+   Mthod = GET
+  
+  --------------------------------
+  
+  
+  
+  ------------------------------------------------------------
+  
+  
+  
+  
+  
+  
+///// Detail Page 
+
+  
+=> Detail ( include category name )
+
+   http://127.0.0.1:8000/api/home/${recipeId}
+  
+   Method = GET
+
+  --------------------------------
+    
+=> Share 
+
+  
+  --------------------------------
+    
+=> Save
+
+  
+  --------------------------------
+      
+=> Like 
    
-  ❗️Remark:: php artisan db:seed --class=CategorySeeder
+   http://127.0.0.1:8000/api/recipe/${recipeId}/like
    
- 
- ----------------------------------------
- 
- 
- 
- 
- 
- 
- 
- Search Page ( No Need Auth ) 🔹
- 
- New - ( May 12 ) ✅📣
- 
- => search recipes with name and category
- 
- http://127.0.0.1:8000/api/search?search_name=${searchName} 
- 
+   Method = POST
+  
+  --------------------------------
+  
+  
+=> Unlike 
+   
+   http://127.0.0.1:8000/api/recipe/${recipeId}/unlike
+   
+   Method = POST
+  
+  --------------------------------
+  
+  
+=> Comment
 
--------------------------------------------------
-Note:: 
+  
+  --------------------------------
+  
+  
+  
+  
+  
+----------------------------------------------------------
 
-🔴     = updated
-🔹     = another route
-✅📣   = new
 
+  
+  
+///// Create Recipe Page ( Need Auth )
+
+  
+=> Create Recipe  
+
+   http://127.0.0.1:8000/api/recipe
+   
+   Method = POST
+
+  --------------------------------
+    
+
+----------------------------------------------------------
+
+
+
+
+
+///// Edit Recipe Page  ( Need Auth )
+
+
+
+=> Old Data  
+
+  http://127.0.0.1:8000/api/recipe/edit/${recipeId}
+  
+  Method = GET 
+
+  --------------------------------
+
+  
+=> Update Recipe  
+
+  http://127.0.0.1:8000/api/recipe/${recipeId}?_method=PUT
+  
+  Method = POST 
+
+  --------------------------------
+    
+
+----------------------------------------------------------
+
+
+
+
+
+///// User Profile Page 
+
+  
+=> User  
+
+
+
+  --------------------------------
+    
+=> User's Posts
+
+  
+  --------------------------------
+    
+=> Create Recipe
+
+  
+  --------------------------------
+  
+----------------------------------------------------------
+
+
+///// User Profile Edit Page 
+
+  
+=> Personal information 
+
+
+
+  --------------------------------
+    
+=> General 
+
+  
+  --------------------------------
+    
+----------------------------------------------------------
+
+
+
+
+///// Search Page 
+
+
+=> Search Recipes 
+
+   http://127.0.0.1:8000/api/search?search_name=${searchName}
+   
+   Method = GET
+  
+  --------------------------------
+  
+  
+  
+=> Categories 
+
+   http://127.0.0.1:8000/api/category
+   
+   Method = GET 
+   
+   -------------------------------
+   
+   
+    
+=> All Recipes 
+
+   http://127.0.0.1:8000/api/home?page=${pageId}
+
+   Method = GET
+   
+   --------------------------------
+  
+
+  

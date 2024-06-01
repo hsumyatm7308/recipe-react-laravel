@@ -7,8 +7,8 @@ const Footer = () => {
     <main className=" bg-[#130D06]  flex flex-col">
       <section className="grow flex justify-center items-center border-b border-[#545454] text-white py-16 px-3">
         <div className="flex flex-col items-center w-[798px] text-center space-y-8">
-          <div className="flex items-center text-[32px] space-x-1 font-medium">
-            <LuChefHat className=" text-main" />
+          <div className="flex items-center text-[32px] space-x-[15px] font-medium">
+            <img src="/logo.svg" alt="logo" className=" w-[33px] h-[33px]" />
             <h3>Chak Kya Mal</h3>
           </div>
           <p className=" text-base">

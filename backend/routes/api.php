@@ -1,6 +1,7 @@
 <?php
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\HomeController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\RecipeController;
 use App\Http\Controllers\Api\SearchController;
 use Illuminate\Http\Request;
@@ -28,16 +29,25 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::apiResource('recipe', RecipeController::class, ["as" => "api"]);
     Route::post('recipe/edit/{id}', [RecipeController::class, 'edit']);
 
+    // detail
+    Route::post('/recipe/{recipe}/like', [LikeController::class, 'like']);
+    Route::post('/recipe/{recipe}/unlike', [LikeController::class, 'unlike']);
+
 });
 
 Route::post('/auth/register', [UserController::class, 'createUser']);
 Route::post('/auth/login', [UserController::class, 'loginUser']);
 
 
-// home 
+// home
 Route::apiResource('/home', HomeController::class, ["as" => "api"]);
+Route::post('/popular', [HomeController::class, 'popular']);
+
 Route::apiResource('/search', SearchController::class, ["as" => "api"]);
 Route::apiResource('/category', CategoryController::class, ["as" => "api"]);
+
+
+
 
 
 
